@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  try {
+    if (localStorage.getItem('racem8_site_unlocked') === 'true') {
+      document.documentElement.classList.add('unlocked');
+    }
+  } catch(e) {}
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shipping, Returns &amp; Warranty Policy — RaceM8 Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #0a0a0a;
+  --dark: #111111;
+  --dark2: #1a1a1a;
+  --red: #cc1111;
+  --red2: #e02020;
+  --silver: #c8cdd4;
+  --silver2: #e8eaed;
+  --white: #f5f5f5;
+  --muted: rgba(245,245,245,0.45);
+  --border: rgba(255,255,255,0.08);
+  --border-red: rgba(204,17,17,0.3);
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 24px 20px 0;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--white); }
+
+.policy-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+.policy-eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--red2);
+  margin-bottom: 10px;
+}
+.policy-title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-bottom: 32px;
+}
+.policy-section {
+  margin-bottom: 36px;
+}
+.policy-section h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+.policy-section h3 {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--silver2);
+  margin: 18px 0 6px;
+}
+.policy-section p, .policy-section li {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--silver2);
+  line-height: 1.75;
+}
+.policy-section ol {
+  margin: 0 0 0 20px;
+}
+.policy-callout {
+  background: rgba(204,17,17,0.1);
+  border: 1px solid var(--border-red);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--red2);
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.policy-contact {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.policy-contact a {
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-red);
+}
+.policy-updated {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 40px;
+}
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+html:not(.unlocked) body > *:not(.password-gate) { display: none !important; }
+html.unlocked .password-gate { display: none !important; }
+.password-gate {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.password-gate-box { max-width: 380px; width: 100%; text-align: center; }
+.password-gate-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.password-gate-title span { color: var(--red2); }
+.password-gate-subtitle { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+.password-gate-input {
+  width: 100%;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  color: var(--white);
+  font-size: 15px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.password-gate-input:focus { outline: none; border-color: var(--red2); }
+.password-gate-btn {
+  width: 100%;
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.password-gate-btn:hover { background: var(--red2); }
+.password-gate-error { display: none; color: var(--red2); font-size: 13px; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="password-gate">
+  <div class="password-gate-box">
+    <div class="password-gate-title">RACE<span>M8</span></div>
+    <div class="password-gate-subtitle">This site is in private preview. Enter the password to continue.</div>
+    <input type="password" class="password-gate-input" id="gatePasswordInput" placeholder="Password" onkeydown="if(event.key==='Enter'){checkGatePassword()}">
+    <button type="button" class="password-gate-btn" onclick="checkGatePassword()">Enter</button>
+    <div class="password-gate-error" id="gateError">Incorrect password, try again.</div>
+  </div>
+</div>
+
+<a class="back-link" href="index.html">&larr; Back to all products</a>
+
+<div class="policy-wrap">
+  <div class="policy-eyebrow">RaceM8 Products</div>
+  <h1 class="policy-title">Shipping, Returns &amp; Warranty Policy</h1>
+
+  <div class="policy-section">
+    <h2>Shipping Information</h2>
+    <div class="policy-callout">Please allow 2&ndash;3 business days to process your order</div>
+
+    <h3>Order Processing</h3>
+    <p>All orders are processed and dispatched within 2&ndash;3 business days of payment confirmation. Business days are Monday to Friday and do not include weekends or Australian public holidays.</p>
+
+    <h3>Delivery Timeframes</h3>
+    <p>We ship Australia-wide via Australia Post. Delivery timeframes are estimated based on your postcode and the Australia Post service selected at checkout. Estimated timeframes begin from the date of dispatch, not the date of order. RaceM8 Products is not responsible for delays caused by Australia Post once your order has been dispatched.</p>
+
+    <h3>Shipping Costs</h3>
+    <p>Shipping costs are calculated in real time at checkout based on your delivery address, and the weight and dimensions of your order. Shipping and handling charges are non-refundable unless the return is due to a fault on our part.</p>
+
+    <h3>Address Accuracy</h3>
+    <p>Please ensure your delivery address is correct before completing checkout. Additional charges may apply for orders returned or redirected due to an incorrectly entered address. RaceM8 Products reserves the right to pass on any such charges to the customer.</p>
+
+    <h3>Stock Availability</h3>
+    <p>As a small Australian fabrication business, our inventory is built to order. If a product requires additional fabrication time beyond our standard processing window, we will contact you directly to advise of an updated dispatch date.</p>
+
+    <h3>Pricing</h3>
+    <p>All prices are listed in Australian Dollars (AUD) and are subject to change without notice. Current pricing is displayed on our website at racem8products.com.au at the time of order.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Return Policy</h2>
+    <div class="policy-callout">Do not return products without prior authorisation</div>
+    <p>If you wish to return an item, please contact us first at sales@racem8products.com.au before sending anything back. Returns received without prior authorisation may not be accepted.</p>
+
+    <h3>Your Rights Under Australian Consumer Law</h3>
+    <p>Nothing in this policy limits your rights under the Australian Consumer Law. Our products come with guarantees that cannot be excluded. You are entitled to a replacement or refund for a major failure, and for compensation for any other reasonably foreseeable loss or damage. You are also entitled to have goods repaired or replaced if they fail to be of acceptable quality and the failure does not amount to a major failure.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>Damaged Merchandise</h2>
+    <p>We take great care in packaging all orders for safe transit. However, if your item arrives damaged, please follow the steps below.</p>
+    <ol>
+      <li><strong>Report damage within 48 hours.</strong> Any damage must be reported to us in writing at sales@racem8products.com.au within 48 hours of delivery. Please include your order number, photos of the damaged item, and photos of the packaging.</li>
+      <li><strong>Inspect your delivery on arrival.</strong> We strongly recommend inspecting your parcel at the time of delivery. If you notice visible damage to the outer packaging, note this when signing for the delivery.</li>
+      <li><strong>Do not dispose of packaging.</strong> Retain all original packaging and damaged items until the matter is resolved. Australia Post may require inspection of the damaged goods and packaging to process a claim.</li>
+      <li><strong>Do not refuse delivery.</strong> If damage is visible on arrival, please accept the delivery and contact us immediately. Refusing delivery does not remove the customer's responsibility for return shipping costs and may complicate the claims process.</li>
+    </ol>
+  </div>
+
+  <div class="policy-section">
+    <h2>Limited Warranty</h2>
+    <p>RaceM8 Products warrants that all of its products are free from defects in material and workmanship for a period of 12 months from the date of purchase.</p>
+    <p>This warranty covers manufacturing defects only. It does not cover damage resulting from misuse, improper installation, modification, normal wear and tear, or use outside the intended purpose of the product.</p>
+
+    <h3>Aluminium Surface Finish</h3>
+    <p>RaceM8 Products are fabricated from aluminium. Due to the nature of this material, superficial surface scratches may occur during the fabrication process, packaging, or transit. Minor surface scratches are an inherent characteristic of aluminium products and are not considered a manufacturing defect. This warranty does not cover superficial scratches or surface marks that do not affect the structural integrity or function of the product.</p>
+    <p>There are no implied warranties of merchantability or fitness for a particular purpose beyond those required by the Australian Consumer Law. There are no warranties which extend beyond the description above.</p>
+    <p>To make a warranty claim, contact us at sales@racem8products.com.au with your order number and a description and photos of the defect. We will assess the claim and arrange a repair, replacement, or refund as appropriate.</p>
+  </div>
+
+  <div class="policy-section policy-contact">
+    <h2 style="border:none; padding-bottom:0; margin-bottom:12px;">Contact Us</h2>
+    <p>For all shipping, returns, damage, or warranty enquiries please contact us at:</p>
+    <p style="margin-top:10px;"><strong>Email:</strong> <a href="mailto:sales@racem8products.com.au">sales@racem8products.com.au</a></p>
+    <p><strong>Website:</strong> racem8products.com.au</p>
+  </div>
+
+  <div class="policy-updated">Last updated: July 2026</div>
+</div>
+
+<footer>&copy; 2026 RaceM8 Products. All rights reserved.</footer>
+
+<script>
+function checkGatePassword() {
+  const input = document.getElementById('gatePasswordInput');
+  const error = document.getElementById('gateError');
+  if (input.value === 'racem8') {
+    try { localStorage.setItem('racem8_site_unlocked', 'true'); } catch(e) {}
+    document.documentElement.classList.add('unlocked');
+  } else {
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+  }
+}
+</script>
+
+</body>
+</html>
