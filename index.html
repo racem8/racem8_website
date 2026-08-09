@@ -565,6 +565,16 @@ footer {
 }
 .cart-item-remove:hover { color: var(--red2); }
 .cart-panel-footer { padding-top: 16px; }
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  padding-bottom: 12px;
+  color: var(--white);
+}
 .cart-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
 .cart-checkout-btn {
   display: block;
@@ -590,7 +600,6 @@ footer {
 <body>
 
 <nav class="top-nav">
-  <a class="shop-now-btn" href="https://shop.racem8products.com.au" target="_blank" rel="noopener">Shop Now</a>
   <button type="button" class="cart-btn" onclick="openCart()">
     Cart <span class="cart-badge" id="cartBadge">0</span>
   </button>
@@ -606,6 +615,10 @@ footer {
     <div class="cart-empty">Your cart is empty.</div>
   </div>
   <div class="cart-panel-footer">
+    <div class="cart-total-row" id="cartTotalRow" style="display:none;">
+      <span>Subtotal</span>
+      <span id="cartTotal">$0</span>
+    </div>
     <div class="cart-note">Delivery, payment, and final pricing are completed on the RaceM8 shop.</div>
     <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutCart()" disabled>Checkout</button>
   </div>
@@ -628,13 +641,13 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
-function addToCart(variantId, name, variantLabel) {
+function addToCart(variantId, name, variantLabel, price) {
   const cart = getCart();
   const existing = cart.find(item => item.id === variantId);
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ id: variantId, name: name, variant: variantLabel, qty: 1 });
+    cart.push({ id: variantId, name: name, variant: variantLabel, qty: 1, price: price || 0 });
   }
   saveCart(cart);
   renderCartItems();
@@ -657,12 +670,19 @@ function updateCartBadge() {
   if (checkoutBtn) checkoutBtn.disabled = count === 0;
 }
 
+function formatPrice(cents) {
+  return '$' + (cents).toLocaleString('en-AU');
+}
+
 function renderCartItems() {
   const container = document.getElementById('cartItems');
   if (!container) return;
   const cart = getCart();
+  const totalRow = document.getElementById('cartTotalRow');
+  const totalEl = document.getElementById('cartTotal');
   if (cart.length === 0) {
     container.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+    if (totalRow) totalRow.style.display = 'none';
     return;
   }
   container.innerHTML = cart.map(item => `
@@ -670,11 +690,16 @@ function renderCartItems() {
       <div>
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-variant">${item.variant}</div>
-        <div class="cart-item-qty">Qty: ${item.qty}</div>
+        <div class="cart-item-qty">Qty: ${item.qty}${item.price ? ' &middot; ' + formatPrice(item.price) + ' ea' : ''}</div>
       </div>
       <button type="button" class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
     </div>
   `).join('');
+  const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.qty, 0);
+  if (totalRow) {
+    totalRow.style.display = 'flex';
+    totalEl.textContent = formatPrice(total);
+  }
 }
 
 function openCart() {
