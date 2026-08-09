@@ -436,9 +436,39 @@ footer {
   .signup-wrap { flex-direction: column; border-radius: 8px; }
   .signup-wrap button { border-radius: 0 0 8px 8px; }
 }
+
+.top-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 24px;
+}
+.shop-now-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.shop-now-btn:hover { background: var(--red2); }
 </style>
 </head>
 <body>
+
+<nav class="top-nav">
+  <a class="shop-now-btn" href="https://shop.racem8products.com.au" target="_blank" rel="noopener">Shop Now</a>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
