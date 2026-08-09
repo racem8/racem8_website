@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+(function(){
+  try {
+    if (localStorage.getItem('racem8_site_unlocked') === 'true') {
+      document.documentElement.classList.add('unlocked');
+    }
+  } catch(e) {}
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RaceM8 Products — Coming Soon</title>
@@ -595,9 +604,87 @@ footer {
 }
 .cart-checkout-btn:hover { background: var(--red2); }
 .cart-checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+html:not(.unlocked) body > *:not(.password-gate) { display: none !important; }
+html.unlocked .password-gate { display: none !important; }
+.password-gate {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.password-gate-box {
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+}
+.password-gate-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.password-gate-title span { color: var(--red2); }
+.password-gate-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.password-gate-input {
+  width: 100%;
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  color: var(--white);
+  font-size: 15px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.password-gate-input:focus {
+  outline: none;
+  border-color: var(--red2);
+}
+.password-gate-btn {
+  width: 100%;
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.password-gate-btn:hover { background: var(--red2); }
+.password-gate-error {
+  display: none;
+  color: var(--red2);
+  font-size: 13px;
+  margin-top: 12px;
+}
 </style>
 </head>
 <body>
+
+<div class="password-gate">
+  <div class="password-gate-box">
+    <div class="password-gate-title">RACE<span>M8</span></div>
+    <div class="password-gate-subtitle">This site is in private preview. Enter the password to continue.</div>
+    <input type="password" class="password-gate-input" id="gatePasswordInput" placeholder="Password" onkeydown="if(event.key==='Enter'){checkGatePassword()}">
+    <button type="button" class="password-gate-btn" onclick="checkGatePassword()">Enter</button>
+    <div class="password-gate-error" id="gateError">Incorrect password, try again.</div>
+  </div>
+</div>
 
 <nav class="top-nav">
   <button type="button" class="cart-btn" onclick="openCart()">
@@ -721,6 +808,19 @@ function checkoutCart() {
 }
 
 document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+function checkGatePassword() {
+  const input = document.getElementById('gatePasswordInput');
+  const error = document.getElementById('gateError');
+  if (input.value === 'racem8') {
+    try { localStorage.setItem('racem8_site_unlocked', 'true'); } catch(e) {}
+    document.documentElement.classList.add('unlocked');
+  } else {
+    error.style.display = 'block';
+    input.value = '';
+    input.focus();
+  }
+}
 </script>
 
 <!-- HERO -->
@@ -877,7 +977,7 @@ document.addEventListener('DOMContentLoaded', updateCartBadge);
   <div class="footer-links">
     <a class="footer-link" href="#">Contact</a>
     <a class="footer-link" href="#">Privacy Policy</a>
-    <a class="footer-link" href="#">Terms</a>
+    <a class="footer-link" href="terms.html">Terms</a>
   </div>
 </footer>
 
