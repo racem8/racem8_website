@@ -462,13 +462,241 @@ footer {
   transition: background 0.2s;
 }
 .shop-now-btn:hover { background: var(--red2); }
+
+.cart-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--white);
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.cart-btn:hover { border-color: var(--border-red); }
+.cart-badge {
+  background: var(--red);
+  color: var(--white);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+.cart-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+}
+.cart-overlay.open { display: block; }
+.cart-panel {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100%;
+  width: min(380px, 90vw);
+  background: var(--dark);
+  border-left: 1px solid var(--border);
+  z-index: 101;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+}
+.cart-panel.open { transform: translateX(0); }
+.cart-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.cart-panel-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.cart-close-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+.cart-close-btn:hover { color: var(--white); }
+.cart-items { flex: 1; overflow-y: auto; }
+.cart-empty { color: var(--muted); font-size: 14px; padding: 20px 0; }
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+.cart-item-name { font-size: 14px; font-weight: 500; color: var(--white); }
+.cart-item-variant { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cart-item-qty { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.cart-item-remove {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+.cart-item-remove:hover { color: var(--red2); }
+.cart-panel-footer { padding-top: 16px; }
+.cart-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.cart-checkout-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cart-checkout-btn:hover { background: var(--red2); }
+.cart-checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 </style>
 </head>
 <body>
 
 <nav class="top-nav">
   <a class="shop-now-btn" href="https://shop.racem8products.com.au" target="_blank" rel="noopener">Shop Now</a>
+  <button type="button" class="cart-btn" onclick="openCart()">
+    Cart <span class="cart-badge" id="cartBadge">0</span>
+  </button>
 </nav>
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-panel-header">
+    <span class="cart-panel-title">Your Cart</span>
+    <button type="button" class="cart-close-btn" onclick="closeCart()">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your cart is empty.</div>
+  </div>
+  <div class="cart-panel-footer">
+    <div class="cart-note">Delivery, payment, and final pricing are completed on the RaceM8 shop.</div>
+    <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutCart()" disabled>Checkout</button>
+  </div>
+</div>
+
+<script>
+const CART_KEY = 'racem8_cart';
+const SHOP_DOMAIN = 'https://shop.racem8products.com.au';
+
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartBadge();
+}
+
+function addToCart(variantId, name, variantLabel) {
+  const cart = getCart();
+  const existing = cart.find(item => item.id === variantId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: variantId, name: name, variant: variantLabel, qty: 1 });
+  }
+  saveCart(cart);
+  renderCartItems();
+  openCart();
+}
+
+function removeFromCart(variantId) {
+  let cart = getCart();
+  cart = cart.filter(item => item.id !== variantId);
+  saveCart(cart);
+  renderCartItems();
+}
+
+function updateCartBadge() {
+  const cart = getCart();
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  if (badge) badge.textContent = count;
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
+  if (checkoutBtn) checkoutBtn.disabled = count === 0;
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cartItems');
+  if (!container) return;
+  const cart = getCart();
+  if (cart.length === 0) {
+    container.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+    return;
+  }
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-variant">${item.variant}</div>
+        <div class="cart-item-qty">Qty: ${item.qty}</div>
+      </div>
+      <button type="button" class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  renderCartItems();
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartPanel').classList.add('open');
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartPanel').classList.remove('open');
+}
+
+function checkoutCart() {
+  const cart = getCart();
+  if (cart.length === 0) return;
+  const cartString = cart.map(item => `${item.id}:${item.qty}`).join(',');
+  window.open(`${SHOP_DOMAIN}/cart/${cartString}`, '_blank', 'noopener');
+}
+
+document.addEventListener('DOMContentLoaded', updateCartBadge);
+</script>
 
 <!-- HERO -->
 <section class="hero">
