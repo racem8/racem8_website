@@ -322,6 +322,16 @@ footer {
 }
 .cart-item-remove:hover { color: var(--red2); }
 .cart-panel-footer { padding-top: 16px; }
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  padding-bottom: 12px;
+  color: var(--white);
+}
 .cart-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
 .cart-checkout-btn {
   display: block;
@@ -384,6 +394,10 @@ footer {
     <div class="cart-empty">Your cart is empty.</div>
   </div>
   <div class="cart-panel-footer">
+    <div class="cart-total-row" id="cartTotalRow" style="display:none;">
+      <span>Subtotal</span>
+      <span id="cartTotal">$0</span>
+    </div>
     <div class="cart-note">Delivery, payment, and final pricing are completed on the RaceM8 shop.</div>
     <button type="button" class="cart-checkout-btn" id="cartCheckoutBtn" onclick="checkoutCart()" disabled>Checkout</button>
   </div>
@@ -391,7 +405,7 @@ footer {
 
 <div class="added-toast" id="addedToast">Added to cart</div>
 
-<a class="back-link" href="racem8_website.html">&larr; Back to all products</a>
+<a class="back-link" href="index.html">&larr; Back to all products</a>
 
 <div class="product-hero">
   <div class="product-photo-wrap">
@@ -409,8 +423,8 @@ footer {
       </div>
     </div>
     <div class="product-price">
-      Price TBC
-      <span class="note">Pricing to be announced at launch</span>
+      $400
+      <span class="note">Pricing subject to change before launch</span>
     </div>
     <p class="product-description">
       A fold-down aluminium workbench with a raised splash wall to keep tools and parts contained. Mounts straight to your trailer wall — a solid work surface when you need it, folds flush when you don't.
@@ -489,13 +503,13 @@ function saveCart(cart) {
   updateCartBadge();
 }
 
-function addToCartInternal(variantId, name, variantLabel) {
+function addToCartInternal(variantId, name, variantLabel, price) {
   const cart = getCart();
   const existing = cart.find(item => item.id === variantId);
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ id: variantId, name: name, variant: variantLabel, qty: 1 });
+    cart.push({ id: variantId, name: name, variant: variantLabel, qty: 1, price: price || 0 });
   }
   saveCart(cart);
 }
@@ -516,12 +530,19 @@ function updateCartBadge() {
   if (checkoutBtn) checkoutBtn.disabled = count === 0;
 }
 
+function formatPrice(cents) {
+  return '$' + (cents).toLocaleString('en-AU');
+}
+
 function renderCartItems() {
   const container = document.getElementById('cartItems');
   if (!container) return;
   const cart = getCart();
+  const totalRow = document.getElementById('cartTotalRow');
+  const totalEl = document.getElementById('cartTotal');
   if (cart.length === 0) {
     container.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+    if (totalRow) totalRow.style.display = 'none';
     return;
   }
   container.innerHTML = cart.map(item => `
@@ -529,11 +550,16 @@ function renderCartItems() {
       <div>
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-variant">${item.variant}</div>
-        <div class="cart-item-qty">Qty: ${item.qty}</div>
+        <div class="cart-item-qty">Qty: ${item.qty}${item.price ? ' &middot; ' + formatPrice(item.price) + ' ea' : ''}</div>
       </div>
       <button type="button" class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
     </div>
   `).join('');
+  const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.qty, 0);
+  if (totalRow) {
+    totalRow.style.display = 'flex';
+    totalEl.textContent = formatPrice(total);
+  }
 }
 
 function openCart() {
@@ -560,10 +586,12 @@ function showAddedToast() {
   setTimeout(() => toast.classList.remove('show'), 1800);
 }
 
+const PRODUCT_PRICE = 400;
+
 function handleAddToCart() {
   const variantId = currentFinish === 'black' ? VARIANT_BLACK : VARIANT_STEEL;
   const variantLabel = currentFinish === 'black' ? 'Black Powder Coat' : 'Stainless Steel';
-  addToCartInternal(variantId, 'Pit Pro Single', variantLabel);
+  addToCartInternal(variantId, 'Pit Pro Single', variantLabel, PRODUCT_PRICE);
   showAddedToast();
 }
 
