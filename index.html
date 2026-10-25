@@ -4,7 +4,7 @@
 <script>
 (function(){
   try {
-    if (localStorage.getItem('racem8_site_unlocked') === 'true') {
+    if (localStorage.getItem('racem8_site_unlocked_v2') === 'true') {
       document.documentElement.classList.add('unlocked');
     }
   } catch(e) {}
@@ -812,8 +812,8 @@ document.addEventListener('DOMContentLoaded', updateCartBadge);
 function checkGatePassword() {
   const input = document.getElementById('gatePasswordInput');
   const error = document.getElementById('gateError');
-  if (input.value === 'racem8') {
-    try { localStorage.setItem('racem8_site_unlocked', 'true'); } catch(e) {}
+  if (input.value === '23Jarradrd!') {
+    try { localStorage.setItem('racem8_site_unlocked_v2', 'true'); } catch(e) {}
     document.documentElement.classList.add('unlocked');
   } else {
     error.style.display = 'block';
