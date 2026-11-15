@@ -365,7 +365,7 @@ html.unlocked .password-gate { display: none !important; }
       </div>
     </div>
     <div class="product-price">
-      $120
+      <span id="priceValue">$120</span>
       <span class="note">Pricing subject to change before launch</span>
     </div>
     <p class="product-description">
@@ -390,6 +390,8 @@ let currentFinish = 'steel';
 const VARIANT_STEEL = '67599193833551';
 const VARIANT_BLACK = '67599193866319';
 const PRODUCT_PRICE = 120;
+const POWDER_COAT_EXTRA = 100;
+function currentPrice() { return currentFinish === 'black' ? PRODUCT_PRICE + POWDER_COAT_EXTRA : PRODUCT_PRICE; }
 const PRODUCT_NAME = "Shop Towel Rack";
 
 const CART_KEY = 'racem8_cart';
@@ -471,7 +473,7 @@ function showAddedToast() {
 function handleAddToCart() {
   const variantId = currentFinish === 'black' ? VARIANT_BLACK : VARIANT_STEEL;
   const variantLabel = currentFinish === 'black' ? 'Black Powder Coat' : 'Aluminium';
-  addToCartInternal(variantId, PRODUCT_NAME, variantLabel, PRODUCT_PRICE);
+  addToCartInternal(variantId, PRODUCT_NAME, variantLabel, currentPrice());
   showAddedToast();
 }
 function setFinish(finish) {
@@ -492,6 +494,7 @@ function setFinish(finish) {
     specValue.textContent = 'Brushed aluminium';
     currentFinish = 'steel';
   }
+  document.getElementById('priceValue').textContent = '$' + currentPrice();
 }
 function checkGatePassword() {
   const input = document.getElementById('gatePasswordInput');
