@@ -360,12 +360,12 @@ html.unlocked .password-gate { display: none !important; }
     <div class="finish-selector">
       <span class="finish-label">Finish</span>
       <div class="finish-options">
-        <button type="button" class="finish-btn active" id="finishSteelBtn" onclick="setFinish('steel')">Aluminium</button>
+        <button type="button" class="finish-btn active" id="finishSteelBtn" onclick="setFinish('steel')">Stainless Steel</button>
         <button type="button" class="finish-btn" id="finishBlackBtn" onclick="setFinish('black')">Black Powder Coat</button>
       </div>
     </div>
     <div class="product-price">
-      <span id="priceValue">$288</span>
+      $299
       <span class="note">Pricing subject to change before launch</span>
     </div>
     <p class="product-description">
@@ -374,7 +374,7 @@ html.unlocked .password-gate { display: none !important; }
     <div class="spec-table">
       <div class="spec-row"><span class="spec-label">Material</span><span class="spec-value">Aluminium</span></div>
       <div class="spec-row"><span class="spec-label">Dimensions (mm)</span><span class="spec-value">600 x 300 x 150</span></div>
-      <div class="spec-row"><span class="spec-label">Finish</span><span class="spec-value" id="finishSpecValue">Brushed aluminium</span></div>
+      <div class="spec-row"><span class="spec-label">Finish</span><span class="spec-value" id="finishSpecValue">Brushed stainless steel</span></div>
       <div class="spec-row"><span class="spec-label">Mounting</span><span class="spec-value">Trailer wall mount</span></div>
     </div>
     <button type="button" class="notify-btn" id="addToCartBtn" onclick="handleAddToCart()">Add to Cart</button>
@@ -389,9 +389,7 @@ const PHOTO_BLACK = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQD
 let currentFinish = 'steel';
 const VARIANT_STEEL = '67599347777615';
 const VARIANT_BLACK = '67599347810383';
-const PRODUCT_PRICE = 288;
-const POWDER_COAT_EXTRA = 100;
-function currentPrice() { return currentFinish === 'black' ? PRODUCT_PRICE + POWDER_COAT_EXTRA : PRODUCT_PRICE; }
+const PRODUCT_PRICE = 299;
 const PRODUCT_NAME = "Oil Caddy";
 
 const CART_KEY = 'racem8_cart';
@@ -472,8 +470,8 @@ function showAddedToast() {
 }
 function handleAddToCart() {
   const variantId = currentFinish === 'black' ? VARIANT_BLACK : VARIANT_STEEL;
-  const variantLabel = currentFinish === 'black' ? 'Black Powder Coat' : 'Aluminium';
-  addToCartInternal(variantId, PRODUCT_NAME, variantLabel, currentPrice());
+  const variantLabel = currentFinish === 'black' ? 'Black Powder Coat' : 'Stainless Steel';
+  addToCartInternal(variantId, PRODUCT_NAME, variantLabel, PRODUCT_PRICE);
   showAddedToast();
 }
 function setFinish(finish) {
@@ -491,10 +489,9 @@ function setFinish(finish) {
     img.src = PHOTO_STEEL;
     blackBtn.classList.remove('active');
     steelBtn.classList.add('active');
-    specValue.textContent = 'Brushed aluminium';
+    specValue.textContent = 'Brushed stainless steel';
     currentFinish = 'steel';
   }
-  document.getElementById('priceValue').textContent = '$' + currentPrice();
 }
 function checkGatePassword() {
   const input = document.getElementById('gatePasswordInput');
