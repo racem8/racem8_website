@@ -360,7 +360,7 @@ html.unlocked .password-gate { display: none !important; }
     <div class="finish-selector">
       <span class="finish-label">Finish</span>
       <div class="finish-options">
-        <button type="button" class="finish-btn active" id="finishSteelBtn" onclick="setFinish('steel')">Stainless Steel</button>
+        <button type="button" class="finish-btn active" id="finishSteelBtn" onclick="setFinish('steel')">Aluminium</button>
         <button type="button" class="finish-btn" id="finishBlackBtn" onclick="setFinish('black')">Black Powder Coat</button>
       </div>
     </div>
@@ -374,7 +374,7 @@ html.unlocked .password-gate { display: none !important; }
     <div class="spec-table">
       <div class="spec-row"><span class="spec-label">Material</span><span class="spec-value">Aluminium</span></div>
       <div class="spec-row"><span class="spec-label">Dimensions (mm)</span><span class="spec-value">300 x 150 x 125</span></div>
-      <div class="spec-row"><span class="spec-label">Finish</span><span class="spec-value" id="finishSpecValue">Brushed stainless steel</span></div>
+      <div class="spec-row"><span class="spec-label">Finish</span><span class="spec-value" id="finishSpecValue">Brushed aluminium</span></div>
       <div class="spec-row"><span class="spec-label">Mounting</span><span class="spec-value">Trailer wall mount</span></div>
     </div>
     <button type="button" class="notify-btn" id="addToCartBtn" onclick="handleAddToCart()">Add to Cart</button>
@@ -470,7 +470,7 @@ function showAddedToast() {
 }
 function handleAddToCart() {
   const variantId = currentFinish === 'black' ? VARIANT_BLACK : VARIANT_STEEL;
-  const variantLabel = currentFinish === 'black' ? 'Black Powder Coat' : 'Stainless Steel';
+  const variantLabel = currentFinish === 'black' ? 'Black Powder Coat' : 'Aluminium';
   addToCartInternal(variantId, PRODUCT_NAME, variantLabel, PRODUCT_PRICE);
   showAddedToast();
 }
@@ -489,7 +489,7 @@ function setFinish(finish) {
     img.src = PHOTO_STEEL;
     blackBtn.classList.remove('active');
     steelBtn.classList.add('active');
-    specValue.textContent = 'Brushed stainless steel';
+    specValue.textContent = 'Brushed aluminium';
     currentFinish = 'steel';
   }
 }
